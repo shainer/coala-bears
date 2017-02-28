@@ -165,6 +165,20 @@ if [ ! -e ~/pmd-bin-5.4.1/bin ]; then
   unzip ~/pmd.zip -d ~/
 fi
 
+# Rust commands
+curl -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=nightly-2017-03-04
+# Workaround https://github.com/rust-lang/cargo/issues/2078
+#        and https://github.com/rust-lang/cargo/issues/2429 (explanation)
+# CircleCI gets its SSH agent activated, Travis doesn't need that.
+CLIPPY_VERSION=0.0.118
+if [ -e /home/ubuntu/.ssh/id_circleci_github ]; then
+    eval `ssh-agent` && ssh-add /home/ubuntu/.ssh/id_circleci_github && cargo install clippy --vers $CLIPPY_VERSION --force
+else
+    cargo install clippy --vers $CLIPPY_VERSION --force
+fi
+cargo clippy -V
+
+
 # Tailor (Swift) commands
 # Comment out the hardcoded PREFIX, so we can put it into ~/.local
 if [ ! -e ~/.local/tailor/tailor-latest ]; then
