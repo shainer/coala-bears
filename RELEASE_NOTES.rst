@@ -1,3 +1,177 @@
+coala-bears 0.11.0
+==================
+
+This release has been brought to you by 30 contributors contributing over 101
+commits.
+
+**New Bears**
+
+CSS:
+
+- ``StyleLintBear`` - Lints css files using stylelint
+
+Elm:
+
+- ``ElmLintBear`` - Formats source code according to given set of rules.
+
+Generic:
+
+- ``LicenseCheckBear`` - Checks given files for license. Searches start or
+  end of files for lines belonging to various licenses.
+- ``DuplicateFileBear`` - Checks for duplicate files.
+
+Enhancements:
+
+- ``FilenameBear`` can now recognize kebab-case naming convention.
+- ``FilenameBear`` can predict naming conventions for wide-spread languages like
+  java, javascript and python. Set the ``file_naming_convention`` to ``auto`` to
+  use this feature.
+- ``GitCommitBear`` can now enforce issue reference in commits.
+- ``GitCommitBear`` now recognizes ``user/repo#12`` type issue references.
+- ``JSONFormatBear`` notifies if run on empty files.
+- ``JSONFormatBear`` tells the lines and columns at which the error occured instead
+  of showing it in the error message.
+
+**New settings**
+
+- ``LineCountBear`` can now exclude blank lines in counting the number of lines
+  in a file. The new setting name is ``exclude_blank_lines`` and it is disabled
+  by default i.e. ``False``.
+- ``PyUnusedCodeBear`` can remove unused variables, see setting
+  ``remove_unused_variable``.
+- ``ShellCheckBear`` can ignore specific rules by providing those in
+  the ``ignore_actions`` setting.
+- ``YAMLLintBear`` can now be configured to check for maximum characters in a
+  line, by default it is set to 80.
+
+**Default Setting Modifications**
+
+- ``LanguageToolBear`` - ``language`` setting is changed to
+  ``natural_language``, please update your settings, it'll be deprecated
+  completely in next release.
+- ``MarkdownBear`` - ``max_line_length`` setting is changed to ``None`` instead
+  of 80.
+  `Issue 1581 <https://github.com/coala/coala-bears/issues/1581>`_
+- ``YAMLLintBear`` - ``document_start`` setting is changed to ``None``, not
+  forbiding the usage of document start marker(---) by default.
+  `Issue 1417 <https://github.com/coala/coala-bears/issues/1417>`_
+
+**Bug Fixes**
+
+- ``InvalidLinkBear`` now extracts links from markdown correctly.
+  `Issue 1338 <https://github.com/coala/coala-bears/issues/1338>`_
+- ``InvalidLinkBear`` now extracts all the links in a line. Earlier it used to
+  extract only the first match.
+- ``PyCodeStyleBear`` now uses user settings along with default settings.
+  Earlier it used to ignore default settings if user changed one of them.
+- ``PyImportSortBear`` now correctly supports option ``known_third_party_imports``.
+  `Issue 1510 <https://github.com/coala/coala-bears/issues/1510>`_
+- ``KeywordBear`` doesn't report false results when unsetting it. Previously,
+  it used to match any text instead of matching nothing.
+  `Issue 1689 <https://github.com/coala/coala-bears/issues/1689>`_
+
+coala-bears 0.10.1
+==================
+
+Bugfixes:
+
+- Remark dependency has been pinned back to ~5.4 because version 6 changes
+  current behavior and breaks tests. This is a hotfix which will be rolled
+  back when the upstream addresses this.
+
+coala-bears 0.10.0
+==================
+
+This release, we had 97 commits contributed by 42 contributors.
+
+The coala website has been updated to a new, more modern design. You can now
+find a quick overview of bears and their settings at
+http://coala.io/#!/languages. We also have sample a bear output on the front
+page for some common languages.
+
+Separation of bear dependencies from the ``coala_bears`` package is planned. This
+release will keep the same behavior as previous releases. However to keep
+current installation behavior in the future, please use the pip package index
+option ``[alldeps]`` as in ``pip3 install coala_bears[alldeps]``.
+
+Here are the important changes and additions. This release tracks coala 0.10.
+please see the coala release notes for the improvements in this version.
+
+**New Bears**
+
+Haskell:
+
+- `GhcModBear` - Checks your Haskell code for syntax errors.
+
+Python:
+
+- `PyFlakesBear` - Checks for errors by parsing, making it safe for modules
+  with side effects.
+- `PyromaBear` - Checks how well your code conforms to the python packaging
+  system (pip, distribute, etc).
+- `PythonPackageInitBear` - Checks that modules have an ``__init__.py`` in
+  their directories.
+
+
+Others:
+
+- `DennisBear` - Checks ``PO`` and ``POT`` files for problems.
+
+**Bears With New Settings**
+
+You can look up the new settings at http://coala.io/#!/languages.
+
+- `GitCommitBear`
+- `InvalidLinkBear`
+- `MarkdownBear`
+
+**Deprecated Settings**
+
+- `InvalidLinkBear` - ``timeout`` setting has been deprecated. Use
+  ``network_timeout`` instead.
+
+**Enhancements**
+
+- `InvalidLinkBear` allows per website timeouts. To use, set
+  ``network_timeout`` to a dictionary with website URL and timeout.
+- `InvalidLinkBear` allow multiple URL ignores in ``links_to_ignore``
+  setting by setting it to a string of comma delimited URLs.
+- `InvalidLinkBear` now parses version control system URLs.
+- `CSVLintBear` now outputs the affected line.
+- `XMLBear` now uses severity that matches the underlying linter.
+
+**Bugfixes**
+
+- coala_bears package will refuse to install on unsupported python versions.
+  `Issue 3310 <https://github.com/coala/coala/issues/3310>`_
+- `InvalidLinkBear` now analyses all links in a file. Previously, it would
+   only check the first one.
+   `Issue 1296 <https://github.com/coala/coala-bears/issues/1296>`_
+- `InvalidLinkBear` now parses markdown links properly.
+  `Issue 1338 <https://github.com/coala/coala-bears/issues/1338>`_
+- `KeywordBear` proposes keyword removal patches for all keywords now.
+  Previously, it would only generate a patch for the first keyword.
+  `Issue 1274 <https://github.com/coala/coala-bears/issues/1274>`_
+- `KeywordBear` now outputs the appropriate message if it is run on an
+  unsupported language. Previously, it would throw an unhandled exception.
+  `Issue 1256 <https://github.com/coala/coala-bears/issues/1256>`_
+- `YAPFBear` Default settings now match upstream defaults properly.
+  `Issue 3241 <https://github.com/coala/coala/issues/3241>`_
+- The dependencies of the following bears were bumped due to upstream bugfixes:
+    - `PycodestyleBear`
+
+coala-bears 0.9.2
+=================
+
+- A dependency problem in `RadonBear` causing install failure has been fixed
+  `Issue #1228 <https://github.com/coala/coala-bears/issues/1228>`_
+- coala dependency has been fixed to only allow coala versions 0.9.x with
+  0.9 series bears
+  `Pull #1243 <https://github.com/coala/coala-bears/pull/1243>`_
+- `InvalidLinkBear` default timeout has been increased to 15 seconds from 2
+  because it was creating false positives
+  `Issue #1219 <https://github.com/coala/coala-bears/issues/1219>`_
+
 coala-bears 0.9.1
 =================
 
